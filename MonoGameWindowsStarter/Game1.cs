@@ -12,11 +12,8 @@ namespace MonoGameWindowsStarter
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Random random = new Random();
+        
         Texture2D ball;
-        Vector2 ballPosition = Vector2.Zero;
-        Vector2 ballVelocity;
-
         Paddle paddle;
 
         KeyboardState oldKeyboardState;
