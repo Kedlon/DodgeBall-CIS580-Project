@@ -25,6 +25,10 @@ namespace MonoGameWindowsStarter
             this.Height = height;
         }
 
+        /// <summary>
+        /// a operator used for casting Rectangles.
+        /// </summary>
+        /// <param name="br"></param>
         public static implicit operator Rectangle(BoundingRectangle br)
         {
             return new Rectangle(

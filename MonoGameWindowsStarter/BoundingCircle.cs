@@ -23,6 +23,10 @@ namespace MonoGameWindowsStarter
             }
         }
 
+        /// <summary>
+        /// an operator for casting a circle into an rectangle with tangental sides
+        /// </summary>
+        /// <param name="c"></param>
         public static implicit operator Rectangle(BoundingCircle c)
         {
             return new Rectangle(

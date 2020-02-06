@@ -12,10 +12,19 @@ namespace MonoGameWindowsStarter
 {
     public class Player
     {
+        /// <summary>
+        /// The game object
+        /// </summary>
         Game1 game;
         
+        /// <summary>
+        /// The Bounds for this player
+        /// </summary>
         public BoundingRectangle Bounds;
         
+        /// <summary>
+        /// The Texture for this player
+        /// </summary>
         Texture2D texture;
 
         /// <summary>
@@ -27,6 +36,9 @@ namespace MonoGameWindowsStarter
             this.game = game;
         }
 
+        /// <summary>
+        /// Sets the players initial size, bounds, and position on the screen.
+        /// </summary>
         public void Initialize()
         {
             Bounds.Width = 50;
@@ -35,11 +47,19 @@ namespace MonoGameWindowsStarter
             Bounds.Y = game.GraphicsDevice.Viewport.Height / 2 - Bounds.Height / 2;
         }
 
+        /// <summary>
+        /// loads the content related to the player
+        /// </summary>
+        /// <param name="content">The ContentManager to use</param>
         public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("pixel");
         }
 
+        /// <summary>
+        /// Updates the state of the player
+        /// </summary>
+        /// <param name="gameTime">The game's GameTime</param>
         public void Update(GameTime gameTime)
         {
             var keyboardState = Keyboard.GetState();
@@ -80,6 +100,13 @@ namespace MonoGameWindowsStarter
             }
         }
 
+        /// <summary>
+        /// Draws the player
+        /// </summary>
+        /// <param name="spriteBatch">
+        /// The SpriteBatch to draw the paddle with.  This method should 
+        /// be invoked between SpriteBatch.Begin() and SpriteBatch.End() calls.
+        /// </param>
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, Bounds, Color.Green);

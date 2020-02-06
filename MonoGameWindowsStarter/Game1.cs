@@ -10,10 +10,17 @@ namespace MonoGameWindowsStarter
     /// </summary>
     public class Game1 : Game
     {
+        /// <summary>
+        /// number of balls that will be in the game.
+        /// </summary>
         const int _ballNumber = 5;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        /// <summary>
+        /// variables holding the balls, player, and field line(s) objects.
+        /// </summary>
         Ball[] balls = new Ball[_ballNumber];
         Player player;
         FieldLine centerLine;
@@ -98,6 +105,8 @@ namespace MonoGameWindowsStarter
                 Exit();
 
             player.Update(gameTime);
+            
+            //update calls for each ball
             foreach (Ball item in balls)
             {
                 item.Update(gameTime);
@@ -110,12 +119,11 @@ namespace MonoGameWindowsStarter
                 }
             }
 
+            //checks if the player is trying to pass the center line onto the other side.
             if (player.Bounds.CollidesWith(centerLine.Bounds))
             {
                 player.Bounds.X = (graphics.GraphicsDevice.Viewport.Width / 2) - (centerLine.Bounds.Width * 2);
             }
-
-            // TODO: Add your update logic here
 
             oldKeyboardState = newKeyboardState;
             base.Update(gameTime);
@@ -129,7 +137,6 @@ namespace MonoGameWindowsStarter
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
             spriteBatch.Begin();
 
             foreach (Ball item in balls)

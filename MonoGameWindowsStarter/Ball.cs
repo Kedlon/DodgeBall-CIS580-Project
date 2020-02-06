@@ -11,19 +11,38 @@ namespace MonoGameWindowsStarter
 {
     public class Ball
     {
+        /// <summary>
+        /// The game object
+        /// </summary>
         Game1 game;
 
+        /// <summary>
+        /// The Texture for the ball
+        /// </summary>
         Texture2D texture;
 
+        /// <summary>
+        /// The Bounds for the ball
+        /// </summary>
         public BoundingCircle Bounds;
 
+        /// <summary>
+        /// The Velocity of the ball
+        /// </summary>
         public Vector2 Velocity;
 
+        /// <summary>
+        /// Initialize the ball
+        /// </summary>
+        /// <param name="game">The game that the ball belongs to.</param>
         public Ball(Game1 game)
         {
             this.game = game;
         }
 
+        /// <summary>
+        /// sets initial size of the ball, as well as the position and velocity.
+        /// </summary>
         public void Initialize()
         {
             // Set the ball's radius
@@ -38,14 +57,22 @@ namespace MonoGameWindowsStarter
                 (float)game.Random.NextDouble(),
                 (float)game.Random.NextDouble()
             );
-            //Velocity = new Vector2(-1, -1);
             Velocity.Normalize();
         }
+
+        /// <summary>
+        /// loads the content related to the ball
+        /// </summary>
+        /// <param name="content">The ContentManager to use.</param>
         public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("red_ball");
         }
 
+        /// <summary>
+        /// updates the state of the ball
+        /// </summary>
+        /// <param name="gameTime">The current GameTime</param>
         public void Update(GameTime gameTime)
         {
             var viewport = game.GraphicsDevice.Viewport;

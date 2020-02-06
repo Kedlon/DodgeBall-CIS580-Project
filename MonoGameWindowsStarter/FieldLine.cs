@@ -27,6 +27,9 @@ namespace MonoGameWindowsStarter
             this.game = game;
         }
 
+        /// <summary>
+        /// sets the inital size and position of the field line.
+        /// </summary>
         public void Initialize()
         {
             Bounds.Width = 25;
@@ -35,13 +38,22 @@ namespace MonoGameWindowsStarter
             Bounds.Y = game.GraphicsDevice.Viewport.Height / 2 - Bounds.Height / 2;
         }
 
-
+        /// <summary>
+        /// loads the content related to the field line
+        /// </summary>
+        /// <param name="content"></param>
         public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("pixel");
         }
 
-
+        /// <summary>
+        /// Draws the field line
+        /// </summary>
+        /// <param name="spriteBatch">
+        /// The SpriteBatch to draw the FieldLine with.  This method should 
+        /// be invoked between SpriteBatch.Begin() and SpriteBatch.End() calls.
+        /// </param>
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, Bounds, Color.Black);
