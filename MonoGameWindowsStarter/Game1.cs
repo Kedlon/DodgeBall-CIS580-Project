@@ -13,7 +13,7 @@ namespace MonoGameWindowsStarter
         /// <summary>
         /// number of balls that will be in the game.
         /// </summary>
-        const int _ballNumber = 5;
+        const int _ballNumber = 7;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
