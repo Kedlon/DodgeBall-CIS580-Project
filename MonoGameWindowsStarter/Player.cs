@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace MonoGameWindowsStarter
 {
-    public class Paddle
+    public class Player
     {
         Game1 game;
         
@@ -19,10 +19,10 @@ namespace MonoGameWindowsStarter
         Texture2D texture;
 
         /// <summary>
-        /// Creates a paddle
+        /// Creates a player
         /// </summary>
-        /// <param name="game">The game this paddle belongs to</param>
-        public Paddle(Game1 game)
+        /// <param name="game">The game this player belongs to</param>
+        public Player(Game1 game)
         {
             this.game = game;
         }
@@ -30,7 +30,7 @@ namespace MonoGameWindowsStarter
         public void Initialize()
         {
             Bounds.Width = 50;
-            Bounds.Height = 200;
+            Bounds.Height = 50;
             Bounds.X = 0;
             Bounds.Y = game.GraphicsDevice.Viewport.Height / 2 - Bounds.Height / 2;
         }

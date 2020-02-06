@@ -69,10 +69,9 @@ namespace MonoGameWindowsStarter
 
             if (Bounds.X < 0)
             {
-                //Velocity.X *= -1;
-                //float delta = Bounds.Radius - Bounds.X;
-                //Bounds.X += 2 * delta;
-                Velocity = Vector2.Zero;
+                Velocity.X *= -1;
+                float delta = Bounds.Radius - Bounds.X;
+                Bounds.X += 2 * delta;
             }
 
             if (Bounds.X > viewport.Width - Bounds.Radius)

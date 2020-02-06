@@ -15,7 +15,8 @@ namespace MonoGameWindowsStarter
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Ball[] balls = new Ball[_ballNumber];
-        Paddle paddle;
+        Player player;
+        FieldLine centerLine;
 
         public Random Random = new Random();
 
@@ -26,11 +27,12 @@ namespace MonoGameWindowsStarter
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            paddle = new Paddle(this);
+            player = new Player(this);
             for(int i = 0; i < _ballNumber; i++)
             {
                 balls[i] = new Ball(this);
             }
+            centerLine = new FieldLine(this);
             
         }
 
@@ -50,7 +52,8 @@ namespace MonoGameWindowsStarter
             {
                 item.Initialize();
             }
-            paddle.Initialize();
+            player.Initialize();
+            centerLine.Initialize();
             base.Initialize();
         }
 
@@ -66,7 +69,8 @@ namespace MonoGameWindowsStarter
             {
                 item.LoadContent(Content);
             }
-            paddle.LoadContent(Content);
+            player.LoadContent(Content);
+            centerLine.LoadContent(Content);
         }
 
         /// <summary>
@@ -93,18 +97,19 @@ namespace MonoGameWindowsStarter
             if (newKeyboardState.IsKeyDown(Keys.Escape))
                 Exit();
 
-            paddle.Update(gameTime);
+            player.Update(gameTime);
             foreach (Ball item in balls)
             {
                 item.Update(gameTime);
 
-                if (paddle.Bounds.CollidesWith(item.Bounds))
+                if (player.Bounds.CollidesWith(item.Bounds))
                 {
                     item.Velocity.X *= -1;
-                    var delta = (paddle.Bounds.X + paddle.Bounds.Width) - (item.Bounds.X - item.Bounds.Radius);
+                    var delta = (player.Bounds.X + player.Bounds.Width) - (item.Bounds.X - item.Bounds.Radius);
                     item.Bounds.X += 2 * delta;
                 }
             }
+            
             
 
             // TODO: Add your update logic here
@@ -128,8 +133,8 @@ namespace MonoGameWindowsStarter
             {
                 item.Draw(spriteBatch);
             }
-            paddle.Draw(spriteBatch);
-
+            player.Draw(spriteBatch);
+            centerLine.Draw(spriteBatch);
             spriteBatch.End();
 
 
