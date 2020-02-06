@@ -54,6 +54,18 @@ namespace MonoGameWindowsStarter
                 // move down
                 Bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             }
+            if (keyboardState.IsKeyDown(Keys.Left))
+            {
+                // move down
+                Bounds.X -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            }
+            if (keyboardState.IsKeyDown(Keys.Right))
+            {
+                // move down
+                Bounds.X += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            }
+
+            //checks if player collides with walls of the viewport
             if (Bounds.Y < 0)
             {
                 Bounds.Y = 0;
@@ -61,6 +73,10 @@ namespace MonoGameWindowsStarter
             if (Bounds.Y > game.GraphicsDevice.Viewport.Height - Bounds.Height)
             {
                 Bounds.Y = game.GraphicsDevice.Viewport.Height - Bounds.Height;
+            }
+            if (Bounds.X < 0)
+            {
+                Bounds.X = 0;
             }
         }
 

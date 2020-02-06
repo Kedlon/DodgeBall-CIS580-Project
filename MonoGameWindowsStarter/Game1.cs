@@ -10,7 +10,7 @@ namespace MonoGameWindowsStarter
     /// </summary>
     public class Game1 : Game
     {
-        const int _ballNumber = 10;
+        const int _ballNumber = 5;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -109,8 +109,11 @@ namespace MonoGameWindowsStarter
                     item.Bounds.X += 2 * delta;
                 }
             }
-            
-            
+
+            if (player.Bounds.CollidesWith(centerLine.Bounds))
+            {
+                player.Bounds.X = (graphics.GraphicsDevice.Viewport.Width / 2) - (centerLine.Bounds.Width * 2);
+            }
 
             // TODO: Add your update logic here
 
