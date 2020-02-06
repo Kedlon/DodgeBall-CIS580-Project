@@ -13,9 +13,9 @@ namespace MonoGameWindowsStarter
     public class Paddle
     {
         Game1 game;
-
-        BoundingRectangle bounds;
-
+        
+        public BoundingRectangle Bounds;
+        
         Texture2D texture;
 
         /// <summary>
@@ -27,44 +27,46 @@ namespace MonoGameWindowsStarter
             this.game = game;
         }
 
+        public void Initialize()
+        {
+            Bounds.Width = 50;
+            Bounds.Height = 200;
+            Bounds.X = 0;
+            Bounds.Y = game.GraphicsDevice.Viewport.Height / 2 - Bounds.Height / 2;
+        }
+
         public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("pixel");
-            bounds.Width = 50;
-            bounds.Height = 200;
-            bounds.X = 0;
-            bounds.Y = game.GraphicsDevice.Viewport.Height / 2 - bounds.Height / 2;
         }
 
         public void Update(GameTime gameTime)
         {
             var keyboardState = Keyboard.GetState();
+
             if (keyboardState.IsKeyDown(Keys.Up))
             {
                 // move up
-                bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                Bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             }
-
-
             if (keyboardState.IsKeyDown(Keys.Down))
             {
                 // move down
-                bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                Bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             }
-
-            if (bounds.Y < 0)
+            if (Bounds.Y < 0)
             {
-                bounds.Y = 0;
+                Bounds.Y = 0;
             }
-            if (bounds.Y > game.GraphicsDevice.Viewport.Height - bounds.Height)
+            if (Bounds.Y > game.GraphicsDevice.Viewport.Height - Bounds.Height)
             {
-                bounds.Y = game.GraphicsDevice.Viewport.Height - bounds.Height;
+                Bounds.Y = game.GraphicsDevice.Viewport.Height - Bounds.Height;
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, bounds, Color.Green);
+            spriteBatch.Draw(texture, Bounds, Color.Green);
         }
     }
 }
