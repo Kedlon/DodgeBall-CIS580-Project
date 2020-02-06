@@ -38,12 +38,12 @@ namespace MonoGameWindowsStarter
                 (float)game.Random.NextDouble(),
                 (float)game.Random.NextDouble()
             );
-            Velocity = new Vector2(-1, -1);
+            //Velocity = new Vector2(-1, -1);
             Velocity.Normalize();
         }
         public void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("ball");
+            texture = content.Load<Texture2D>("red_ball");
         }
 
         public void Update(GameTime gameTime)

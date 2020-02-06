@@ -10,9 +10,11 @@ namespace MonoGameWindowsStarter
     /// </summary>
     public class Game1 : Game
     {
+        const int _ballNumber = 10;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Ball ball;
+        Ball[] balls = new Ball[_ballNumber];
         Paddle paddle;
 
         public Random Random = new Random();
@@ -25,7 +27,11 @@ namespace MonoGameWindowsStarter
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             paddle = new Paddle(this);
-            ball = new Ball(this);
+            for(int i = 0; i < _ballNumber; i++)
+            {
+                balls[i] = new Ball(this);
+            }
+            
         }
 
         /// <summary>
@@ -40,7 +46,10 @@ namespace MonoGameWindowsStarter
             graphics.PreferredBackBufferWidth = 1042;
             graphics.PreferredBackBufferHeight = 768;
             graphics.ApplyChanges();
-            ball.Initialize();
+            foreach(Ball item in balls)
+            {
+                item.Initialize();
+            }
             paddle.Initialize();
             base.Initialize();
         }
@@ -53,7 +62,10 @@ namespace MonoGameWindowsStarter
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            ball.LoadContent(Content);
+            foreach (Ball item in balls)
+            {
+                item.LoadContent(Content);
+            }
             paddle.LoadContent(Content);
         }
 
@@ -82,14 +94,18 @@ namespace MonoGameWindowsStarter
                 Exit();
 
             paddle.Update(gameTime);
-            ball.Update(gameTime);
-
-            if (paddle.Bounds.CollidesWith(ball.Bounds))
+            foreach (Ball item in balls)
             {
-                ball.Velocity.X *= -1;
-                var delta = (paddle.Bounds.X + paddle.Bounds.Width) - (ball.Bounds.X - ball.Bounds.Radius);
-                ball.Bounds.X += 2 * delta;
+                item.Update(gameTime);
+
+                if (paddle.Bounds.CollidesWith(item.Bounds))
+                {
+                    item.Velocity.X *= -1;
+                    var delta = (paddle.Bounds.X + paddle.Bounds.Width) - (item.Bounds.X - item.Bounds.Radius);
+                    item.Bounds.X += 2 * delta;
+                }
             }
+            
 
             // TODO: Add your update logic here
 
@@ -108,7 +124,10 @@ namespace MonoGameWindowsStarter
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            ball.Draw(spriteBatch);
+            foreach (Ball item in balls)
+            {
+                item.Draw(spriteBatch);
+            }
             paddle.Draw(spriteBatch);
 
             spriteBatch.End();
