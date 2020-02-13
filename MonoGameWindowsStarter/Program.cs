@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MonoGameWindowsStarter
+namespace Dodgeball
 {
 #if WINDOWS || LINUX
     /// <summary>

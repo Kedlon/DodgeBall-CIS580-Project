@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-namespace MonoGameWindowsStarter
+namespace Dodgeball
 {
     public static class Collisions
     {

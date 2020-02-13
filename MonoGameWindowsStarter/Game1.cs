@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using System;
 
-namespace MonoGameWindowsStarter
+namespace Dodgeball
 {
     /// <summary>
     /// This is the main type for your game.
