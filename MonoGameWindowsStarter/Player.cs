@@ -33,7 +33,7 @@ namespace Dodgeball
         /// <summary>
         /// How quickly the player should move
         /// </summary>
-        const float PLAYER_SPEED = 200;
+        const float PLAYER_SPEED = 300;
 
         /// <summary>
         /// The width of the animation frames
@@ -77,7 +77,6 @@ namespace Dodgeball
         {
             this.game = game;
             timer = new TimeSpan(0);
-            position = new Vector2(200, 200);
             state = State.Idle;
         }
 
@@ -86,10 +85,11 @@ namespace Dodgeball
         /// </summary>
         public void Initialize()
         {
-            Bounds.Width = 50;
-            Bounds.Height = 50;
+            Bounds.Width = FRAME_WIDTH;
+            Bounds.Height = FRAME_HEIGHT;
             Bounds.X = 0;
             Bounds.Y = game.GraphicsDevice.Viewport.Height / 2 - Bounds.Height / 2;
+            position = new Vector2(Bounds.X, Bounds.Y);
         }
 
         /// <summary>
@@ -116,24 +116,28 @@ namespace Dodgeball
                 // move up
                 state = State.North;
                 position.Y -= delta * PLAYER_SPEED;
+                Bounds.Y -= delta * PLAYER_SPEED;
             }
             else if (keyboardState.IsKeyDown(Keys.Down))
             {
                 // move down
                 state = State.South;
                 position.Y += delta * PLAYER_SPEED;
+                Bounds.Y += delta * PLAYER_SPEED;
             }
             else if (keyboardState.IsKeyDown(Keys.Left))
             {
                 // move left
                 state = State.West;
                 position.X -= delta * PLAYER_SPEED;
+                Bounds.X -= delta * PLAYER_SPEED;
             }
             else if (keyboardState.IsKeyDown(Keys.Right))
             {
                 // move right
                 state = State.East;
                 position.X += delta * PLAYER_SPEED;
+                Bounds.X += delta * PLAYER_SPEED;
             }
             else
             {
@@ -175,8 +179,6 @@ namespace Dodgeball
 
             // render the sprite
             spriteBatch.Draw(texture, position, source, Color.White);
-
-    
         }
 
         /// <summary>

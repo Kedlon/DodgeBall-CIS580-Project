@@ -17,6 +17,8 @@ namespace Dodgeball
         /// </summary>
         const int _ballNumber = 2;
 
+        private int _lives;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -49,7 +51,7 @@ namespace Dodgeball
                 balls[i] = new Ball(this);
             }
             centerLine = new FieldLine(this);
-            
+            _lives = 3;
         }
 
         /// <summary>
@@ -108,37 +110,50 @@ namespace Dodgeball
         protected override void Update(GameTime gameTime)
         {
             newKeyboardState = Keyboard.GetState();
-
+            int newLifeCount = _lives;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             if (newKeyboardState.IsKeyDown(Keys.Escape))
                 Exit();
-
-            player.Update(gameTime);
             
-            //update calls for each ball
-            foreach (Ball item in balls)
+            if(_lives != 0)
             {
-                item.Update(gameTime);
+                player.Update(gameTime);
 
-                if (player.Bounds.CollidesWith(item.Bounds))
+                //update calls for each ball
+                foreach (Ball item in balls)
                 {
-                    item.Velocity.X *= -1;
-                    var delta = (player.Bounds.X + player.Bounds.Width) - (item.Bounds.X - item.Bounds.Radius);
-                    item.Bounds.X += 2 * delta;
-                    playerHitSFX.Play();
+                    item.Update(gameTime);
+
+                    if (player.Bounds.CollidesWith(item.Bounds))
+                    {
+                        item.Velocity.X *= -1;
+                        var delta = (player.Bounds.X + player.Bounds.Width) - (item.Bounds.X - item.Bounds.Radius);
+                        item.Bounds.X += 2 * delta;
+                        playerHitSFX.Play();
+                        _lives--;
+                    }
+                }
+
+                //checks if the player is trying to pass the center line onto the other side.
+                if (player.Bounds.CollidesWith(centerLine.Bounds))
+                {
+                    player.Bounds.X = (graphics.GraphicsDevice.Viewport.Width / 2) - (centerLine.Bounds.Width * 2);
                 }
             }
-
-            //checks if the player is trying to pass the center line onto the other side.
-            if (player.Bounds.CollidesWith(centerLine.Bounds))
+            else
             {
-                player.Bounds.X = (graphics.GraphicsDevice.Viewport.Width / 2) - (centerLine.Bounds.Width * 2);
+                foreach (Ball item in balls)
+                {
+                    item.Velocity = Vector2.Zero;
+                }
             }
+            
 
             oldKeyboardState = newKeyboardState;
             base.Update(gameTime);
+
         }
 
         /// <summary>
@@ -157,8 +172,18 @@ namespace Dodgeball
             }
             player.Draw(spriteBatch);
             centerLine.Draw(spriteBatch);
+            if(_lives != 0)
+            {
+                spriteBatch.DrawString(spriteFont, "Lives: " + _lives.ToString(), Vector2.Zero, Color.White);
+            }
+            else
+            {
+                spriteBatch.DrawString(spriteFont, "Game Over, please close the game.", Vector2.Zero, Color.White);
+            }
+
             spriteBatch.End();
 
+            
 
             base.Draw(gameTime);
         }
