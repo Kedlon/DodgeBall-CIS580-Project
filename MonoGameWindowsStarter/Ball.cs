@@ -52,7 +52,7 @@ namespace Dodgeball
         public void Initialize()
         {
             // Set the ball's radius
-            Bounds.Radius = 25;
+            Bounds.Radius = 20;
 
             // position the ball in the center of the screen
             Bounds.X = game.GraphicsDevice.Viewport.Width / 2;

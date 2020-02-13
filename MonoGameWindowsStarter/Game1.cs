@@ -32,6 +32,8 @@ namespace Dodgeball
         /// </summary>
         SoundEffect playerHitSFX;
 
+        SpriteFont spriteFont;
+
         public Random Random = new Random();
 
         KeyboardState oldKeyboardState;
@@ -85,6 +87,7 @@ namespace Dodgeball
             }
             player.LoadContent(Content);
             centerLine.LoadContent(Content);
+            spriteFont = Content.Load<SpriteFont>("defaultFont");
             playerHitSFX = Content.Load<SoundEffect>("Hit_Player");
         }
 

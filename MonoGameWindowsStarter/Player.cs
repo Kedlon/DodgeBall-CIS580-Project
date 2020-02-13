@@ -10,22 +10,64 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Dodgeball
 {
+    /// <summary>
+    /// An enum representing the states the player can be in
+    /// </summary>
+    enum State
+    {
+        South = 0,
+        East = 1,
+        West = 2,
+        North = 3,
+        Idle = 4,
+    }
+
     public class Player
     {
+
+        /// <summary>
+        /// How quickly the animation should advance frames (1/8 second as milliseconds)
+        /// </summary>
+        const int ANIMATION_FRAME_RATE = 124;
+
+        /// <summary>
+        /// How quickly the player should move
+        /// </summary>
+        const float PLAYER_SPEED = 200;
+
+        /// <summary>
+        /// The width of the animation frames
+        /// </summary>
+        const int FRAME_WIDTH = 49;
+
+        /// <summary>
+        /// The hieght of the animation frames
+        /// </summary>
+        const int FRAME_HEIGHT = 64;
+
         /// <summary>
         /// The game object
         /// </summary>
         Game1 game;
-        
+
         /// <summary>
         /// The Bounds for this player
         /// </summary>
         public BoundingRectangle Bounds;
-        
+
         /// <summary>
         /// The Texture for this player
         /// </summary>
         Texture2D texture;
+
+        /// <summary>
+        /// Other variables for the animation of the player model
+        /// </summary>
+        State state;
+        TimeSpan timer;
+        int frame;
+        Vector2 position;
+        SpriteFont font;
 
         /// <summary>
         /// Creates a player
@@ -34,6 +76,9 @@ namespace Dodgeball
         public Player(Game1 game)
         {
             this.game = game;
+            timer = new TimeSpan(0);
+            position = new Vector2(200, 200);
+            state = State.Idle;
         }
 
         /// <summary>
@@ -53,7 +98,8 @@ namespace Dodgeball
         /// <param name="content">The ContentManager to use</param>
         public void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("pixel");
+            texture = content.Load<Texture2D>("spritesheet");
+            font = content.Load<SpriteFont>("defaultFont");
         }
 
         /// <summary>
@@ -63,26 +109,35 @@ namespace Dodgeball
         public void Update(GameTime gameTime)
         {
             var keyboardState = Keyboard.GetState();
+            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (keyboardState.IsKeyDown(Keys.Up))
             {
                 // move up
-                Bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                state = State.North;
+                position.Y -= delta * PLAYER_SPEED;
             }
-            if (keyboardState.IsKeyDown(Keys.Down))
+            else if (keyboardState.IsKeyDown(Keys.Down))
             {
                 // move down
-                Bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                state = State.South;
+                position.Y += delta * PLAYER_SPEED;
             }
-            if (keyboardState.IsKeyDown(Keys.Left))
+            else if (keyboardState.IsKeyDown(Keys.Left))
             {
-                // move down
-                Bounds.X -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                // move left
+                state = State.West;
+                position.X -= delta * PLAYER_SPEED;
             }
-            if (keyboardState.IsKeyDown(Keys.Right))
+            else if (keyboardState.IsKeyDown(Keys.Right))
             {
-                // move down
-                Bounds.X += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                // move right
+                state = State.East;
+                position.X += delta * PLAYER_SPEED;
+            }
+            else
+            {
+                state = State.Idle;
             }
 
             //checks if player collides with walls of the viewport
@@ -98,18 +153,54 @@ namespace Dodgeball
             {
                 Bounds.X = 0;
             }
+            UpdateAnimation(gameTime);
         }
 
         /// <summary>
         /// Draws the player
         /// </summary>
         /// <param name="spriteBatch">
-        /// The SpriteBatch to draw the paddle with.  This method should 
+        /// The SpriteBatch to draw the player with.  This method should 
         /// be invoked between SpriteBatch.Begin() and SpriteBatch.End() calls.
         /// </param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, Bounds, Color.Green);
+            // determine the source rectagle of the sprite's current frame
+            var source = new Rectangle(
+                frame * FRAME_WIDTH, // X value 
+                (int)state % 4 * FRAME_HEIGHT, // Y value
+                FRAME_WIDTH, // Width 
+                FRAME_HEIGHT // Height
+                );
+
+            // render the sprite
+            spriteBatch.Draw(texture, position, source, Color.White);
+
+    
+        }
+
+        /// <summary>
+        /// updates the animation for the player, used within the Update() method.
+        /// </summary>
+        /// <param name="gameTime">the game's gameTime</param>
+        private void UpdateAnimation(GameTime gameTime)
+        {
+            // Update the player animation timer when the player is moving
+            if (state != State.Idle) timer += gameTime.ElapsedGameTime;
+
+            // Determine the frame should increase.  Using a while 
+            // loop will accomodate the possiblity the animation should 
+            // advance more than one frame.
+            while (timer.TotalMilliseconds > ANIMATION_FRAME_RATE)
+            {
+                // increase by one frame
+                frame++;
+                // reduce the timer by one frame duration
+                timer -= new TimeSpan(0, 0, 0, 0, ANIMATION_FRAME_RATE);
+            }
+
+            // Keep the frame within bounds (there are four frames)
+            frame %= 4;
         }
     }
 }
