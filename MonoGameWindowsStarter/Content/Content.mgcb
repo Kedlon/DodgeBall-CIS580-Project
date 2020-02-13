@@ -13,6 +13,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Hit_Hurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Hit_Hurt.wav;Hit_Player.wav
+
+#begin Laser_Shoot2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Laser_Shoot2.wav;Hit_Wall.wav
+
 #begin pixel.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -36,16 +48,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:red_ball.png
-
-#begin Table_tennis_ball.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Table_tennis_ball.png;ball.png
 

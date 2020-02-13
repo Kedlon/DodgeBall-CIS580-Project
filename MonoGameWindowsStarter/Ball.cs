@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 
 namespace MonoGameWindowsStarter
 {
@@ -20,6 +21,11 @@ namespace MonoGameWindowsStarter
         /// The Texture for the ball
         /// </summary>
         Texture2D texture;
+
+        /// <summary>
+        /// Sound Effect for the ball bouncing against the screen bounds.
+        /// </summary>
+        SoundEffect bounceSFX;
 
         /// <summary>
         /// The Bounds for the ball
@@ -67,6 +73,7 @@ namespace MonoGameWindowsStarter
         public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("red_ball");
+            bounceSFX = content.Load<SoundEffect>("Hit_Wall");
         }
 
         /// <summary>
@@ -85,6 +92,7 @@ namespace MonoGameWindowsStarter
                 Velocity.Y *= -1;
                 float delta = Bounds.Radius - Bounds.Y;
                 Bounds.Y += 2 * delta;
+                bounceSFX.Play();
             }
 
             if (Bounds.Center.Y > viewport.Height - Bounds.Radius)
@@ -92,20 +100,21 @@ namespace MonoGameWindowsStarter
                 Velocity.Y *= -1;
                 float delta = viewport.Height - Bounds.Radius - Bounds.Y;
                 Bounds.Y += 2 * delta;
+                bounceSFX.Play();
             }
-
             if (Bounds.X < 0)
             {
                 Velocity.X *= -1;
                 float delta = Bounds.Radius - Bounds.X;
                 Bounds.X += 2 * delta;
+                bounceSFX.Play();
             }
-
             if (Bounds.X > viewport.Width - Bounds.Radius)
             {
                 Velocity.X *= -1;
                 float delta = viewport.Width - Bounds.Radius - Bounds.X;
                 Bounds.X += 2 * delta;
+                bounceSFX.Play();
             }
         }
 

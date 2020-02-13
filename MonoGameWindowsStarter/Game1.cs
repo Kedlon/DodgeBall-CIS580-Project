@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using System;
 
 namespace MonoGameWindowsStarter
@@ -13,7 +15,7 @@ namespace MonoGameWindowsStarter
         /// <summary>
         /// number of balls that will be in the game.
         /// </summary>
-        const int _ballNumber = 7;
+        const int _ballNumber = 2;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -24,6 +26,11 @@ namespace MonoGameWindowsStarter
         Ball[] balls = new Ball[_ballNumber];
         Player player;
         FieldLine centerLine;
+
+        /// <summary>
+        /// Sound Effect for when a ball collides with the player sprite.
+        /// </summary>
+        SoundEffect playerHitSFX;
 
         public Random Random = new Random();
 
@@ -78,6 +85,7 @@ namespace MonoGameWindowsStarter
             }
             player.LoadContent(Content);
             centerLine.LoadContent(Content);
+            playerHitSFX = Content.Load<SoundEffect>("Hit_Player");
         }
 
         /// <summary>
@@ -116,6 +124,7 @@ namespace MonoGameWindowsStarter
                     item.Velocity.X *= -1;
                     var delta = (player.Bounds.X + player.Bounds.Width) - (item.Bounds.X - item.Bounds.Radius);
                     item.Bounds.X += 2 * delta;
+                    playerHitSFX.Play();
                 }
             }
 
