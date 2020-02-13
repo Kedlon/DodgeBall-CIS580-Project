@@ -56,6 +56,11 @@ namespace Dodgeball
         public BoundingRectangle Bounds;
 
         /// <summary>
+        /// used for positioning the character sprite
+        /// </summary>
+        public Vector2 position;
+
+        /// <summary>
         /// The Texture for this player
         /// </summary>
         Texture2D texture;
@@ -66,7 +71,6 @@ namespace Dodgeball
         State state;
         TimeSpan timer;
         int frame;
-        Vector2 position;
         SpriteFont font;
 
         /// <summary>
@@ -148,14 +152,17 @@ namespace Dodgeball
             if (Bounds.Y < 0)
             {
                 Bounds.Y = 0;
+                position.Y = 0;
             }
             if (Bounds.Y > game.GraphicsDevice.Viewport.Height - Bounds.Height)
             {
                 Bounds.Y = game.GraphicsDevice.Viewport.Height - Bounds.Height;
+                position.Y = game.GraphicsDevice.Viewport.Height - Bounds.Height;
             }
             if (Bounds.X < 0)
             {
                 Bounds.X = 0;
+                position.X = 0;
             }
             UpdateAnimation(gameTime);
         }

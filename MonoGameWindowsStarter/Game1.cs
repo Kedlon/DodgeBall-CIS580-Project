@@ -15,7 +15,7 @@ namespace Dodgeball
         /// <summary>
         /// number of balls that will be in the game.
         /// </summary>
-        const int _ballNumber = 2;
+        const int _ballNumber = 3;
 
         private int _lives;
 
@@ -117,6 +117,7 @@ namespace Dodgeball
             if (newKeyboardState.IsKeyDown(Keys.Escape))
                 Exit();
             
+            //loop that keeps the game going when lives are still available.
             if(_lives != 0)
             {
                 player.Update(gameTime);
@@ -140,8 +141,10 @@ namespace Dodgeball
                 if (player.Bounds.CollidesWith(centerLine.Bounds))
                 {
                     player.Bounds.X = (graphics.GraphicsDevice.Viewport.Width / 2) - (centerLine.Bounds.Width * 2);
+                    player.position.X = (graphics.GraphicsDevice.Viewport.Width / 2) - (centerLine.Bounds.Width * 2);
                 }
             }
+            //if the player loses
             else
             {
                 foreach (Ball item in balls)
@@ -172,6 +175,7 @@ namespace Dodgeball
             }
             player.Draw(spriteBatch);
             centerLine.Draw(spriteBatch);
+            //checks if the game is still active
             if(_lives != 0)
             {
                 spriteBatch.DrawString(spriteFont, "Lives: " + _lives.ToString(), Vector2.Zero, Color.White);
